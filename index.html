@@ -412,6 +412,52 @@
             transform: translateY(-4px);
         }
         
+        /* Maple Project 区域 */
+        .maple-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .maple-card {
+            background-color: var(--secondary-bg);
+            border-radius: 18px;
+            padding: 60px 50px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition-default);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(0, 113, 227, 0.1);
+        }
+
+        .maple-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 40px rgba(0, 113, 227, 0.12);
+        }
+
+        .maple-icon {
+            font-size: 56px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .maple-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.015em;
+        }
+
+        .maple-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 35px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .mobile-menu-btn {
@@ -504,6 +550,7 @@
                     <li><a href="#about">关于我</a></li>
                     <li><a href="#skills">技能</a></li>
                     <li><a href="#projects">项目</a></li>
+                    <li><a href="#maple">Maple</a></li>
                     <li><a href="#contact">联系</a></li>
                 </ul>
             </nav>
@@ -648,6 +695,29 @@
                         <p class="project-desc">基于零信任架构的企业安全访问解决方案，实现动态访问控制、身份验证和网络微隔离，保护企业数字资产安全。</p>
                         <a href="#" class="btn btn-secondary">查看详情</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maple Project 区域 -->
+    <section id="maple" style="background-color: var(--secondary-bg);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Maple Project</h2>
+                <p class="section-subtitle">探索交互式多媒体创作，用代码编织视觉与听觉的体验</p>
+            </div>
+
+            <div class="maple-container fade-in">
+                <div class="maple-card">
+                    <div class="maple-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="maple-title">Maple 项目</h3>
+                    <p class="maple-desc">一个基于 Godot 引擎的交互式多媒体项目，融合了视觉效果、音频处理和实时交互技术，探索游戏引擎在创意编程中的无限可能。</p>
+                    <a href="./Maple/index.html" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-play"></i> 启动 Maple
+                    </a>
                 </div>
             </div>
         </div>
