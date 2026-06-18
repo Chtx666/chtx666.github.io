@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二次元 · Letutakoff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #f5f5f7; --card: #ffffff;
+            --accent: #0071e3; --purple: #af52de;
+            --text: #1d1d1f; --text-secondary: #86868b;
+            --text-tertiary: #aeaeb2;
+            --hairline: rgba(0,0,0,0.06);
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+            --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.06);
+            --radius: 20px;
+            --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        html { background: var(--bg); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+            background: var(--bg); color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.016em; line-height: 1.47059;
+        }
+
+        a { text-decoration: none; color: var(--accent); }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 28px; }
+
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(245,245,247,0.72);
+            backdrop-filter: saturate(180%) blur(24px);
+            -webkit-backdrop-filter: saturate(180%) blur(24px);
+            border-bottom: 1px solid var(--hairline);
+        }
+        .header-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 48px; max-width: 960px; margin: 0 auto; padding: 0 28px;
+        }
+        .header-name { font-size: 19px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+        .header-back { font-size: 13px; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 5px; transition: color .2s; }
+        .header-back:hover { color: var(--text); }
+
+        .hero { padding: 140px 0 56px; text-align: center; }
+        .avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: linear-gradient(145deg, #478ed8, #0071e3, #1662b7);
+            box-shadow: 0 2px 16px rgba(0,113,227,0.15);
+            margin: 0 auto 20px; display: flex; align-items: center;
+            justify-content: center; font-size: 28px; color: #fff;
+        }
+        .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.022em; }
+        .hero .tagline { font-size: 18px; color: var(--text-secondary); margin-top: 6px; }
+
+        .sec-label {
+            font-size: 11px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--purple); margin-bottom: 8px;
+        }
+        .sec-title { font-size: 32px; font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; margin-bottom: 6px; }
+        .sec-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 36px; }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .anime-card {
+            background: var(--card); border-radius: var(--radius);
+            overflow: hidden; box-shadow: var(--card-shadow);
+            transition: transform 0.55s var(--transition), box-shadow 0.55s var(--transition);
+        }
+        .anime-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .anime-card-img {
+            width: 100%; height: 280px; object-fit: cover;
+            display: block; background: #e8e8ed;
+        }
+        .anime-card-body { padding: 18px 20px 20px; }
+        .anime-card-body h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .anime-card-body p { font-size: 12px; color: var(--text-tertiary); line-height: 1.5; }
+
+        .contact-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 36px; }
+        .contact-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 22px; border-radius: 980px;
+            background: var(--card); box-shadow: var(--card-shadow);
+            font-size: 14px; color: var(--text-secondary);
+            transition: all 0.35s var(--transition);
+        }
+        .contact-pill:hover { transform: translateY(-1px); box-shadow: var(--card-hover-shadow); color: var(--text); }
+        .contact-pill i { font-size: 16px; }
+
+        footer {
+            text-align: center; padding: 36px;
+            border-top: 1px solid var(--hairline); background: var(--card); margin-top: 80px;
+        }
+        footer p { font-size: 12px; color: var(--text-tertiary); }
+        footer p + p { margin-top: 2px; }
+
+        @media (max-width: 800px) {
+            .anime-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 36px; }
+        }
+        @media (max-width: 420px) {
+            .anime-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="./index.html" class="header-name">Letutakoff</a>
+            <a href="./index.html" class="header-back"><i class="fas fa-arrow-left"></i> 返回</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="avatar"><i class="fas fa-feather-alt"></i></div>
+                <h1>二次元</h1>
+                <p class="tagline">在另一个次元，找到平行世界的入口。</p>
+            </div>
+        </section>
+
+        <div class="container" style="padding-bottom: 48px;">
+            <div class="sec-label">Anime &amp; ACG</div>
+            <h2 class="sec-title">ACG 收藏</h2>
+            <p class="sec-desc">那些让我沉浸的幻想世界与不朽名作。</p>
+
+            <div class="anime-grid">
+                <div class="anime-card">
+                    <img class="anime-card-img" src="./images/chainsaw_man.jpg" alt="电锯人" loading="lazy">
+                    <div class="anime-card-body">
+                        <h4>电锯人</h4>
+                        <p>藤本树 · MAPPA</p>
+                    </div>
+                </div>
+                <div class="anime-card">
+                    <img class="anime-card-img" src="./images/quintuplets.jpg" alt="五等分的新娘" loading="lazy">
+                    <div class="anime-card-body">
+                        <h4>五等分的新娘</h4>
+                        <p>春场葱 · 手冢 Production</p>
+                    </div>
+                </div>
+                <div class="anime-card">
+                    <img class="anime-card-img" src="./images/evangelion.jpg" alt="新世纪福音战士" loading="lazy">
+                    <div class="anime-card-body">
+                        <h4>新世纪福音战士</h4>
+                        <p>庵野秀明 · GAINAX</p>
+                    </div>
+                </div>
+                <div class="anime-card">
+                    <img class="anime-card-img" src="./images/ultraman.jpg" alt="奥特曼" loading="lazy">
+                    <div class="anime-card-body">
+                        <h4>ULTRAMAN</h4>
+                        <p>Production I.G · Netflix</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="padding: 40px 0 48px;">
+            <div class="contact-row">
+                <a href="mailto:an_email666@qq.com" class="contact-pill"><i class="fas fa-envelope"></i> an_email666@qq.com</a>
+                <a href="https://space.bilibili.com/3493275306560179?spm_id_from=333.1007.0.0" target="_blank" rel="noopener" class="contact-pill"><i class="fab fa-bilibili"></i> Bilibili</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Letutakoff. All rights reserved.</p>
+        <p>贡献者：Letutakoff、Guashark</p>
+    </footer>
+</body>
+</html>
