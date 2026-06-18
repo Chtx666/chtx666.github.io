@@ -18,6 +18,7 @@
             --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.06);
             --radius: 20px;
             --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --glow: rgba(0, 113, 227, 0.08);
         }
 
         html { background: var(--bg); }
@@ -26,6 +27,44 @@
             background: var(--bg); color: var(--text);
             -webkit-font-smoothing: antialiased;
             letter-spacing: -0.016em; line-height: 1.47059;
+        }
+
+        /* ── Page Load Entrance ── */
+        .page-enter {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeSlideUp 0.7s var(--transition) forwards;
+        }
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Background Depth Glow ── */
+        main::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse at center, var(--glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        main {
+            position: relative;
         }
 
         a { text-decoration: none; color: var(--accent); }
@@ -54,8 +93,8 @@
             margin: 0 auto 20px; display: flex; align-items: center;
             justify-content: center; font-size: 28px; color: #fff;
         }
-        .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.022em; }
-        .hero .tagline { font-size: 18px; color: var(--text-secondary); margin-top: 6px; }
+        .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.032em; }
+        .hero .tagline { font-size: 18px; color: var(--text-secondary); margin-top: 6px; letter-spacing: 0.008em; }
 
         .sec-label {
             font-size: 11px; font-weight: 600; text-transform: uppercase;
@@ -74,15 +113,39 @@
             background: var(--card); border-radius: var(--radius);
             overflow: hidden; box-shadow: var(--card-shadow);
             transition: transform 0.55s var(--transition), box-shadow 0.55s var(--transition);
+            position: relative;
+        }
+        .anime-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(180deg, rgba(175,82,222,0.3) 0%, transparent 40%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s var(--transition);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .anime-card:hover::before {
+            opacity: 1;
         }
         .anime-card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: var(--card-hover-shadow), 0 0 40px rgba(175,82,222,0.06);
         }
 
         .anime-card-img {
             width: 100%; height: 280px; object-fit: cover;
             display: block; background: #e8e8ed;
+            transition: transform 0.6s var(--transition);
+        }
+        .anime-card:hover .anime-card-img {
+            transform: scale(1.05);
         }
         .anime-card-body { padding: 18px 20px 20px; }
         .anime-card-body h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
@@ -97,7 +160,14 @@
             transition: all 0.35s var(--transition);
         }
         .contact-pill:hover { transform: translateY(-1px); box-shadow: var(--card-hover-shadow); color: var(--text); }
-        .contact-pill i { font-size: 16px; }
+        .contact-pill:hover i { color: var(--accent); }
+        .contact-pill i { transition: color 0.3s var(--transition); font-size: 16px; }
+
+        /* ── Card Stagger Delays ── */
+        .reveal:nth-child(1) { transition-delay: 0s; }
+        .reveal:nth-child(2) { transition-delay: 0.08s; }
+        .reveal:nth-child(3) { transition-delay: 0.16s; }
+        .reveal:nth-child(4) { transition-delay: 0.24s; }
 
         footer {
             text-align: center; padding: 36px;
@@ -123,7 +193,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="page-enter">
         <section class="hero">
             <div class="container">
                 <div class="avatar"><i class="fas fa-feather-alt"></i></div>
@@ -138,28 +208,28 @@
             <p class="sec-desc">那些让我沉浸的幻想世界与不朽名作。</p>
 
             <div class="anime-grid">
-                <div class="anime-card">
+                <div class="anime-card reveal">
                     <img class="anime-card-img" src="./images/chainsaw_man.jpg" alt="电锯人" loading="lazy">
                     <div class="anime-card-body">
                         <h4>电锯人</h4>
                         <p>藤本树 · MAPPA</p>
                     </div>
                 </div>
-                <div class="anime-card">
+                <div class="anime-card reveal">
                     <img class="anime-card-img" src="./images/quintuplets.jpg" alt="五等分的新娘" loading="lazy">
                     <div class="anime-card-body">
                         <h4>五等分的新娘</h4>
                         <p>春场葱 · 手冢 Production</p>
                     </div>
                 </div>
-                <div class="anime-card">
+                <div class="anime-card reveal">
                     <img class="anime-card-img" src="./images/evangelion.jpg" alt="新世纪福音战士" loading="lazy">
                     <div class="anime-card-body">
                         <h4>新世纪福音战士</h4>
                         <p>庵野秀明 · GAINAX</p>
                     </div>
                 </div>
-                <div class="anime-card">
+                <div class="anime-card reveal">
                     <img class="anime-card-img" src="./images/ultraman.jpg" alt="奥特曼" loading="lazy">
                     <div class="anime-card-body">
                         <h4>ULTRAMAN</h4>
@@ -181,5 +251,22 @@
         <p>&copy; 2026 Letutakoff. All rights reserved.</p>
         <p>贡献者：Letutakoff、Guashark</p>
     </footer>
+
+    <script>
+    (function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    })();
+    </script>
 </body>
 </html>

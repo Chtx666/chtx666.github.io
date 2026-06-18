@@ -20,6 +20,7 @@
             --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.06);
             --radius: 20px;
             --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --glow: rgba(0, 113, 227, 0.08);
         }
 
         html { background: var(--bg); }
@@ -30,6 +31,54 @@
             -moz-osx-font-smoothing: grayscale;
             letter-spacing: -0.016em;
             line-height: 1.47059;
+        }
+
+        /* ── Page Load Entrance Animation ── */
+        .page-enter {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeSlideUp 0.7s var(--transition) forwards;
+        }
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Avatar Rotate-In ── */
+        .avatar-enter {
+            opacity: 0;
+            transform: scale(0.9) rotate(-8deg);
+            animation: avatarIn 0.8s var(--transition) 0.1s forwards;
+        }
+        @keyframes avatarIn {
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Background Depth Glow ── */
+        .main-wrap::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, var(--glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .main-wrap {
+            position: relative;
         }
 
         a { text-decoration: none; color: var(--accent); }
@@ -52,12 +101,13 @@
 
         h1 {
             font-size: 52px; font-weight: 700;
-            letter-spacing: -0.022em; line-height: 1.08;
+            letter-spacing: -0.032em; line-height: 1.08;
             margin-bottom: 8px;
         }
         .subtitle {
             font-size: 19px; color: var(--text-secondary);
             font-weight: 400; margin-bottom: 64px;
+            letter-spacing: 0.008em;
         }
 
         .grid {
@@ -71,10 +121,30 @@
             box-shadow: var(--card-shadow);
             transition: transform 0.55s var(--transition), box-shadow 0.55s var(--transition);
             color: var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+        .grid-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(180deg, rgba(0,113,227,0.25) 0%, transparent 40%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s var(--transition);
+            pointer-events: none;
+        }
+        .grid-card:hover::before {
+            opacity: 1;
         }
         .grid-card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: var(--card-hover-shadow), 0 0 40px var(--glow);
         }
 
         .grid-icon {
@@ -89,6 +159,12 @@
 
         .grid-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 2px; }
         .grid-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+
+        /* ── Card Stagger Delays ── */
+        .reveal:nth-child(1) { transition-delay: 0s; }
+        .reveal:nth-child(2) { transition-delay: 0.08s; }
+        .reveal:nth-child(3) { transition-delay: 0.16s; }
+        .reveal:nth-child(4) { transition-delay: 0.24s; }
 
         footer {
             text-align: center; padding: 36px;
@@ -109,28 +185,28 @@
 </head>
 <body>
 
-    <div class="main-wrap">
-        <div class="avatar"><i class="fas fa-feather-alt"></i></div>
+    <div class="main-wrap page-enter">
+        <div class="avatar avatar-enter"><i class="fas fa-feather-alt"></i></div>
         <h1>Letutakoff</h1>
         <p class="subtitle">代码构建秩序，热爱点燃生活。</p>
 
         <div class="grid">
-            <a href="./badminton.html" class="grid-card">
+            <a href="./badminton.html" class="grid-card reveal">
                 <div class="grid-icon icon-green"><i class="fas fa-baseball-ball"></i></div>
                 <h3>羽球</h3>
                 <p>YONEX·ASTROX 3DG ST</p>
             </a>
-            <a href="./anime.html" class="grid-card">
+            <a href="./anime.html" class="grid-card reveal">
                 <div class="grid-icon icon-purple"><i class="fas fa-ghost"></i></div>
                 <h3>二次元</h3>
                 <p>电锯人·五等分·EVA·奥特曼</p>
             </a>
-            <a href="./coding.html" class="grid-card">
+            <a href="./coding.html" class="grid-card reveal">
                 <div class="grid-icon icon-blue"><i class="fas fa-code"></i></div>
                 <h3>Coding</h3>
                 <p>Maple·GitHub</p>
             </a>
-            <a href="./about.html" class="grid-card">
+            <a href="./about.html" class="grid-card reveal">
                 <div class="grid-icon icon-indigo"><i class="fas fa-circle-info"></i></div>
                 <h3>About</h3>
                 <p>权利·贡献者</p>
@@ -142,6 +218,23 @@
         <p>&copy; 2026 Letutakoff. All rights reserved.</p>
         <p>贡献者：Letutakoff、Guashark</p>
     </footer>
+
+    <script>
+    (function() {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    })();
+    </script>
 
 </body>
 </html>
