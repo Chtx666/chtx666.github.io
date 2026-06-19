@@ -5,232 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二次元 · Letutakoff</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* ── Anime page: purple theme ── */
         :root {
-            --bg: #f5f5f7; --card: #ffffff;
-            --accent: #0071e3; --purple: #af52de;
-            --text: #1d1d1f; --text-secondary: #86868b;
-            --text-tertiary: #aeaeb2;
-            --hairline: rgba(0,0,0,0.06);
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
-            --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.06);
-            --radius: 20px;
-            --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
-            --glow: rgba(0, 113, 227, 0.08);
+            --page-accent: #af52de;
+            --page-accent-dark: #9b3ed6;
         }
 
-        html { background: var(--bg); }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-            background: var(--bg); color: var(--text);
-            -webkit-font-smoothing: antialiased;
-            letter-spacing: -0.016em; line-height: 1.47059;
+        ::selection { background: rgba(175, 82, 222, 0.15); }
+
+        .scroll-progress {
+            background: linear-gradient(90deg, #bf5af2, #af52de, #0071e3);
         }
 
-        /* ── Page Load Entrance ── */
-        .page-enter {
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeSlideUp 0.7s var(--transition) forwards;
-        }
-        @keyframes fadeSlideUp {
-            to { opacity: 1; transform: translateY(0); }
+        .header-logo {
+            background: linear-gradient(145deg, #bf5af2, #9b3ed6);
         }
 
-        /* ── Scroll Reveal ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .hero-avatar {
+            background: linear-gradient(145deg, #bf5af2, #9b3ed6, #8830d0);
+            box-shadow: 0 4px 24px rgba(191, 90, 242, 0.2);
         }
 
-        /* ── Background Depth Glow ── */
-        main::before {
+        .hero h1.gradient-text {
+            background: linear-gradient(135deg, #bf5af2, #0071e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sec-label { color: var(--page-accent); }
+        .sec-label::after {
             content: '';
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(ellipse at center, var(--glow) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        main {
-            position: relative;
+            display: block;
+            width: 32px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--page-accent), transparent);
+            margin-top: 6px;
+            border-radius: 1px;
         }
 
-        a { text-decoration: none; color: var(--accent); }
-        .container { max-width: 960px; margin: 0 auto; padding: 0 28px; }
+        .contact-pill:hover i { color: var(--page-accent); }
 
-        header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            background: rgba(245,245,247,0.72);
-            backdrop-filter: saturate(180%) blur(24px);
-            -webkit-backdrop-filter: saturate(180%) blur(24px);
-            border-bottom: 1px solid var(--hairline);
-        }
-        .header-inner {
-            display: flex; align-items: center; justify-content: space-between;
-            height: 48px; max-width: 960px; margin: 0 auto; padding: 0 28px;
-        }
-        .header-name { font-size: 19px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-        .header-back { font-size: 13px; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 5px; transition: color .2s; }
-        .header-back:hover { color: var(--text); }
-
-        .hero { padding: 140px 0 56px; text-align: center; }
-        .avatar {
-            width: 72px; height: 72px; border-radius: 50%;
-            background: linear-gradient(145deg, #478ed8, #0071e3, #1662b7);
-            box-shadow: 0 2px 16px rgba(0,113,227,0.15);
-            margin: 0 auto 20px; display: flex; align-items: center;
-            justify-content: center; font-size: 28px; color: #fff;
-        }
-        .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.032em; }
-        .hero .tagline { font-size: 18px; color: var(--text-secondary); margin-top: 6px; letter-spacing: 0.008em; }
-
-        .sec-label {
-            font-size: 11px; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.08em; color: var(--purple); margin-bottom: 8px;
-        }
-        .sec-title { font-size: 32px; font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; margin-bottom: 6px; }
-        .sec-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 36px; }
-
+        /* ── Anime Card Grid ── */
         .anime-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 20px;
+            perspective: 1000px;
         }
 
         .anime-card {
-            background: var(--card); border-radius: var(--radius);
-            overflow: hidden; box-shadow: var(--card-shadow);
-            transition: transform 0.55s var(--transition), box-shadow 0.55s var(--transition);
-            position: relative;
-        }
-        .anime-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
+            background: var(--card-bg);
+            backdrop-filter: saturate(180%) blur(28px);
+            -webkit-backdrop-filter: saturate(180%) blur(28px);
+            border: 1px solid var(--card-border);
             border-radius: var(--radius);
-            padding: 1px;
-            background: linear-gradient(180deg, rgba(175,82,222,0.3) 0%, transparent 40%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s var(--transition);
-            pointer-events: none;
-            z-index: 2;
-        }
-        .anime-card:hover::before {
-            opacity: 1;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.55s var(--spring),
+                        box-shadow 0.55s var(--ease-out);
+            position: relative;
+            transform-style: preserve-3d;
         }
         .anime-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--card-hover-shadow), 0 0 40px rgba(175,82,222,0.06);
+            transform: translateY(-6px) rotateX(2deg);
+            box-shadow: var(--shadow-card-hover), var(--shadow-glow-purple);
         }
 
+        .anime-card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 240px;
+            background: #e8e8ed;
+        }
         .anime-card-img {
-            width: 100%; height: 280px; object-fit: cover;
-            display: block; background: #e8e8ed;
-            transition: transform 0.6s var(--transition);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s var(--ease-out);
         }
         .anime-card:hover .anime-card-img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
-        .anime-card-body { padding: 18px 20px 20px; }
-        .anime-card-body h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-        .anime-card-body p { font-size: 12px; color: var(--text-tertiary); line-height: 1.5; }
 
-        .contact-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 36px; }
-        .contact-pill {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 11px 22px; border-radius: 980px;
-            background: var(--card); box-shadow: var(--card-shadow);
-            font-size: 14px; color: var(--text-secondary);
-            transition: all 0.35s var(--transition);
+        .anime-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 25%, rgba(0, 0, 0, 0.6) 100%);
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out);
+            display: flex;
+            align-items: flex-end;
+            padding: 18px 16px 14px;
         }
-        .contact-pill:hover { transform: translateY(-1px); box-shadow: var(--card-hover-shadow); color: var(--text); }
-        .contact-pill:hover i { color: var(--accent); }
-        .contact-pill i { transition: color 0.3s var(--transition); font-size: 16px; }
-
-        /* ── Card Stagger Delays ── */
-        .reveal:nth-child(1) { transition-delay: 0s; }
-        .reveal:nth-child(2) { transition-delay: 0.08s; }
-        .reveal:nth-child(3) { transition-delay: 0.16s; }
-        .reveal:nth-child(4) { transition-delay: 0.24s; }
-
-        footer {
-            text-align: center; padding: 36px;
-            border-top: 1px solid var(--hairline); background: var(--card); margin-top: 80px;
+        .anime-card:hover .anime-card-overlay { opacity: 1; }
+        .anime-card-overlay span {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
-        footer p { font-size: 12px; color: var(--text-tertiary); }
-        footer p + p { margin-top: 2px; }
+
+        .anime-card-body {
+            padding: 18px 20px 20px;
+        }
+        .anime-card-body h4 {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+        .anime-card-body p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
 
         @media (max-width: 800px) {
             .anime-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 36px; }
+            .anime-card-img-wrap { height: 200px; }
         }
-        @media (max-width: 420px) {
+        @media (max-width: 500px) {
             .anime-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <header>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <header class="site-header">
         <div class="header-inner">
-            <a href="./index.html" class="header-name">Letutakoff</a>
+            <a href="./index.html" class="header-brand">
+                <div class="header-logo"><i class="fas fa-ghost"></i></div>
+                Letutakoff
+            </a>
             <a href="./index.html" class="header-back"><i class="fas fa-arrow-left"></i> 返回</a>
         </div>
     </header>
 
-    <main class="page-enter">
+    <main class="page-enter content-wrap">
         <section class="hero">
             <div class="container">
-                <div class="avatar"><i class="fas fa-feather-alt"></i></div>
-                <h1>二次元</h1>
+                <div class="hero-avatar"><i class="fas fa-ghost"></i></div>
+                <h1 class="gradient-text">二次元</h1>
                 <p class="tagline">在另一个次元，找到平行世界的入口。</p>
             </div>
         </section>
 
-        <div class="container" style="padding-bottom: 48px;">
+        <div class="container sec-section">
             <div class="sec-label">Anime &amp; ACG</div>
             <h2 class="sec-title">ACG 收藏</h2>
             <p class="sec-desc">那些让我沉浸的幻想世界与不朽名作。</p>
 
             <div class="anime-grid">
                 <div class="anime-card reveal">
-                    <img class="anime-card-img" src="./images/chainsaw_man.jpg" alt="电锯人" loading="lazy">
+                    <div class="anime-card-img-wrap">
+                        <img class="anime-card-img" src="./images/chainsaw_man.jpg" alt="电锯人" loading="lazy">
+                        <div class="anime-card-overlay"><span>电锯人</span></div>
+                    </div>
                     <div class="anime-card-body">
                         <h4>电锯人</h4>
                         <p>藤本树 · MAPPA</p>
                     </div>
                 </div>
                 <div class="anime-card reveal">
-                    <img class="anime-card-img" src="./images/quintuplets.jpg" alt="五等分的新娘" loading="lazy">
+                    <div class="anime-card-img-wrap">
+                        <img class="anime-card-img" src="./images/quintuplets.jpg" alt="五等分的新娘" loading="lazy">
+                        <div class="anime-card-overlay"><span>五等分的新娘</span></div>
+                    </div>
                     <div class="anime-card-body">
                         <h4>五等分的新娘</h4>
                         <p>春场葱 · 手冢 Production</p>
                     </div>
                 </div>
                 <div class="anime-card reveal">
-                    <img class="anime-card-img" src="./images/evangelion.jpg" alt="新世纪福音战士" loading="lazy">
+                    <div class="anime-card-img-wrap">
+                        <img class="anime-card-img" src="./images/evangelion.jpg" alt="新世纪福音战士" loading="lazy">
+                        <div class="anime-card-overlay"><span>新世纪福音战士</span></div>
+                    </div>
                     <div class="anime-card-body">
                         <h4>新世纪福音战士</h4>
                         <p>庵野秀明 · GAINAX</p>
                     </div>
                 </div>
                 <div class="anime-card reveal">
-                    <img class="anime-card-img" src="./images/ultraman.jpg" alt="奥特曼" loading="lazy">
+                    <div class="anime-card-img-wrap">
+                        <img class="anime-card-img" src="./images/ultraman.jpg" alt="奥特曼" loading="lazy">
+                        <div class="anime-card-overlay"><span>ULTRAMAN</span></div>
+                    </div>
                     <div class="anime-card-body">
                         <h4>ULTRAMAN</h4>
                         <p>Production I.G · Netflix</p>
@@ -239,7 +205,7 @@
             </div>
         </div>
 
-        <div class="container" style="padding: 40px 0 48px;">
+        <div class="container">
             <div class="contact-row">
                 <a href="mailto:an_email666@qq.com" class="contact-pill"><i class="fas fa-envelope"></i> an_email666@qq.com</a>
                 <a href="https://space.bilibili.com/3493275306560179?spm_id_from=333.1007.0.0" target="_blank" rel="noopener" class="contact-pill"><i class="fab fa-bilibili"></i> Bilibili</a>
@@ -247,13 +213,21 @@
         </div>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <p>&copy; 2026 Letutakoff. All rights reserved.</p>
         <p>贡献者：Letutakoff、Guashark</p>
     </footer>
 
     <script>
     (function() {
+        var bar = document.getElementById('scrollProgress');
+        if (bar) {
+            window.addEventListener('scroll', function() {
+                var st = window.pageYOffset || document.documentElement.scrollTop;
+                var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                bar.style.width = (st / h * 100) + '%';
+            });
+        }
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
@@ -261,11 +235,8 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.reveal').forEach(function(el) {
-            observer.observe(el);
-        });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
     })();
     </script>
 </body>

@@ -5,226 +5,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>羽球 · Letutakoff</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* ── Badminton page: green theme ── */
         :root {
-            --bg: #f5f5f7; --card: #ffffff;
-            --accent: #0071e3; --green: #34c759;
-            --text: #1d1d1f; --text-secondary: #86868b;
-            --text-tertiary: #aeaeb2;
-            --hairline: rgba(0,0,0,0.06);
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
-            --card-hover-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 36px rgba(0,0,0,0.06);
-            --radius: 20px;
-            --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
-            --glow: rgba(0, 113, 227, 0.08);
+            --page-accent: #34c759;
+            --page-accent-dark: #248a3d;
         }
 
-        html { background: var(--bg); }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-            background: var(--bg); color: var(--text);
-            -webkit-font-smoothing: antialiased;
-            letter-spacing: -0.016em; line-height: 1.47059;
+        ::selection { background: rgba(52, 199, 89, 0.15); }
+
+        .scroll-progress {
+            background: linear-gradient(90deg, #34c759, #0071e3, #5e5ce6);
         }
 
-        /* ── Page Load Entrance ── */
-        .page-enter {
-            opacity: 0;
-            transform: translateY(16px);
-            animation: fadeSlideUp 0.7s var(--transition) forwards;
-        }
-        @keyframes fadeSlideUp {
-            to { opacity: 1; transform: translateY(0); }
+        .header-logo {
+            background: linear-gradient(145deg, #30d158, #248a3d);
         }
 
-        /* ── Scroll Reveal ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .hero-avatar {
+            background: linear-gradient(145deg, #30d158, #248a3d, #1a7a30);
+            box-shadow: 0 4px 24px rgba(48, 209, 88, 0.18);
         }
 
-        /* ── Background Depth Glow ── */
-        main::before {
+        .hero h1.gradient-text {
+            background: linear-gradient(135deg, #30d158, #0071e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sec-label { color: var(--page-accent); }
+        .sec-label::after {
             content: '';
+            display: block;
+            width: 32px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--page-accent), transparent);
+            margin-top: 6px;
+            border-radius: 1px;
+        }
+
+        .contact-pill:hover i { color: var(--page-accent); }
+
+        /* ── Racket Showcase ── */
+        .racket-showcase {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+            padding: 48px;
+        }
+        .racket-showcase:hover {
+            transform: translateY(-3px) scale(1.005);
+            box-shadow: var(--shadow-card-hover), var(--shadow-glow-green);
+            border-color: rgba(52, 199, 89, 0.15);
+        }
+
+        .ribbon {
             position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(ellipse at center, var(--glow) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        main {
-            position: relative;
-        }
-
-        a { text-decoration: none; color: var(--accent); }
-        .container { max-width: 860px; margin: 0 auto; padding: 0 28px; }
-
-        header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            background: rgba(245,245,247,0.72);
-            backdrop-filter: saturate(180%) blur(24px);
-            -webkit-backdrop-filter: saturate(180%) blur(24px);
-            border-bottom: 1px solid var(--hairline);
-        }
-        .header-inner {
-            display: flex; align-items: center; justify-content: space-between;
-            height: 48px; max-width: 860px; margin: 0 auto; padding: 0 28px;
-        }
-        .header-name { font-size: 19px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-        .header-back { font-size: 13px; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 5px; transition: color .2s; }
-        .header-back:hover { color: var(--text); }
-
-        .hero { padding: 140px 0 56px; text-align: center; }
-        .avatar {
-            width: 72px; height: 72px; border-radius: 50%;
-            background: linear-gradient(145deg, #478ed8, #0071e3, #1662b7);
-            box-shadow: 0 2px 16px rgba(0,113,227,0.15);
-            margin: 0 auto 20px; display: flex; align-items: center;
-            justify-content: center; font-size: 28px; color: #fff;
-        }
-        .hero h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.032em; }
-        .hero .tagline { font-size: 18px; color: var(--text-secondary); margin-top: 6px; letter-spacing: 0.008em; }
-
-        .sec-label {
-            font-size: 11px; font-weight: 600; text-transform: uppercase;
-            letter-spacing: 0.08em; color: var(--green); margin-bottom: 8px;
-        }
-        .sec-title { font-size: 32px; font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; margin-bottom: 6px; }
-        .sec-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 36px; }
-
-        .racket-card {
-            background: var(--card); border-radius: var(--radius);
-            padding: 44px; display: flex; gap: 44px; align-items: center;
-            box-shadow: var(--card-shadow);
-            transition: box-shadow 0.55s var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        .racket-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: var(--radius);
-            padding: 1px;
-            background: linear-gradient(180deg, rgba(0,113,227,0.25) 0%, transparent 40%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s var(--transition);
-            pointer-events: none;
-        }
-        .racket-card:hover::before {
-            opacity: 1;
-        }
-        .racket-card:hover {
-            box-shadow: var(--card-hover-shadow), 0 0 40px var(--glow);
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #30d158, #248a3d);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 2px 12px rgba(48, 209, 88, 0.3);
+            z-index: 1;
         }
 
         .racket-img-wrap {
-            flex: 0 0 220px; height: 220px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            background: #fafafc; padding: 28px;
+            flex: 0 0 240px;
+            height: 240px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #f8fdf8, #eef7ee);
+            padding: 32px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+            animation: floatImg 4s ease-in-out infinite;
         }
-        .racket-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        .racket-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-        .racket-info h3 { font-size: 24px; font-weight: 700; letter-spacing: -0.018em; margin-bottom: 2px; }
-        .racket-info .sub { font-size: 14px; color: var(--text-tertiary); margin-bottom: 24px; }
-        .spec-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 36px; }
-        .spec-list li {
-            font-size: 13px; color: var(--text-secondary);
-            padding: 6px 0; border-bottom: 1px solid var(--hairline);
+        .racket-info { flex: 1; }
+        .racket-info h3 {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
         }
-        .spec-list li:nth-last-child(-n+2) { border-bottom: none; }
-        .spec-list strong { color: var(--text); font-weight: 500; margin-right: 4px; }
+        .racket-info .sub {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
 
-        .contact-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 36px; }
-        .contact-pill {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 11px 22px; border-radius: 980px;
-            background: var(--card); box-shadow: var(--card-shadow);
-            font-size: 14px; color: var(--text-secondary);
-            transition: all 0.35s var(--transition);
+        /* Spec table */
+        .spec-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
         }
-        .contact-pill:hover { transform: translateY(-1px); box-shadow: var(--card-hover-shadow); color: var(--text); }
-        .contact-pill:hover i { color: var(--accent); }
-        .contact-pill i { transition: color 0.3s var(--transition); }
-        .contact-pill i { font-size: 16px; }
+        .spec-table td {
+            font-size: 14px;
+            padding: 10px 0;
+            border-bottom: 0.5px solid var(--hairline);
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+        .spec-table td:first-child {
+            color: var(--text-secondary);
+            font-weight: 500;
+            width: 90px;
+        }
+        .spec-table td:last-child {
+            color: var(--text);
+            font-weight: 600;
+        }
 
-        footer {
-            text-align: center; padding: 36px;
-            border-top: 1px solid var(--hairline); background: var(--card); margin-top: 80px;
-        }
-        footer p { font-size: 12px; color: var(--text-tertiary); }
-        footer p + p { margin-top: 2px; }
-
-        @media (max-width: 720px) {
-            .hero h1 { font-size: 36px; }
-            .racket-card { flex-direction: column; text-align: center; padding: 32px 24px; }
-            .racket-img-wrap { flex: 0 0 180px; width: 180px; }
-            .spec-list { text-align: left; }
-        }
-        @media (max-width: 420px) {
-            .spec-list { grid-template-columns: 1fr; }
+        @media (max-width: 760px) {
+            .racket-showcase {
+                flex-direction: column;
+                text-align: center;
+                padding: 36px 28px;
+            }
+            .racket-img-wrap {
+                flex: 0 0 200px;
+                width: 200px;
+                height: 200px;
+            }
+            .spec-table td:first-child { width: 70px; }
         }
     </style>
 </head>
 <body>
-    <header>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <header class="site-header">
         <div class="header-inner">
-            <a href="./index.html" class="header-name">Letutakoff</a>
+            <a href="./index.html" class="header-brand">
+                <div class="header-logo"><i class="fas fa-feather-alt"></i></div>
+                Letutakoff
+            </a>
             <a href="./index.html" class="header-back"><i class="fas fa-arrow-left"></i> 返回</a>
         </div>
     </header>
 
-    <main class="page-enter">
+    <main class="page-enter content-wrap">
         <section class="hero">
             <div class="container">
-                <div class="avatar"><i class="fas fa-feather-alt"></i></div>
-                <h1>羽球</h1>
+                <div class="hero-avatar"><i class="fas fa-feather-alt"></i></div>
+                <h1 class="gradient-text">羽球</h1>
                 <p class="tagline">每一次挥拍，都是与风的对话。</p>
             </div>
         </section>
 
-        <div class="container" style="padding-bottom: 48px;">
+        <div class="container sec-section">
             <div class="sec-label">Badminton</div>
             <h2 class="sec-title">主力战拍</h2>
             <p class="sec-desc">陪伴我在球场上的每一刻。</p>
 
-            <div class="racket-card reveal">
+            <div class="card racket-showcase reveal">
+                <div class="ribbon">主力战拍</div>
                 <div class="racket-img-wrap">
                     <img src="./images/yonex_logo.svg" alt="YONEX">
                 </div>
                 <div class="racket-info">
                     <h3>YONEX ASTROX 3DG ST</h3>
                     <p class="sub">天斧系列 · 进攻型</p>
-                    <ul class="spec-list">
-                        <li><strong>拍框</strong> 碳素 + 钨</li>
-                        <li><strong>中杆</strong> 碳素 · NANOMESH NEO</li>
-                        <li><strong>手感</strong> 硬</li>
-                        <li><strong>规格</strong> 4U5</li>
-                        <li><strong>磅数</strong> 20–35 lbs</li>
-                        <li><strong>平衡</strong> 头重</li>
-                        <li><strong>长度</strong> 10mm 加长</li>
-                        <li><strong>颜色</strong> 黑 / 蓝</li>
-                    </ul>
+                    <table class="spec-table">
+                        <tr><td>拍框</td><td>碳素 + 钨</td></tr>
+                        <tr><td>中杆</td><td>碳素 · NANOMESH NEO</td></tr>
+                        <tr><td>手感</td><td>硬</td></tr>
+                        <tr><td>规格</td><td>4U5</td></tr>
+                        <tr><td>磅数</td><td>20–35 lbs</td></tr>
+                        <tr><td>平衡</td><td>头重</td></tr>
+                        <tr><td>长度</td><td>10mm 加长</td></tr>
+                        <tr><td>颜色</td><td>黑 / 蓝</td></tr>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <div class="container" style="padding: 40px 0 48px;">
+        <div class="container">
             <div class="contact-row">
                 <a href="mailto:an_email666@qq.com" class="contact-pill"><i class="fas fa-envelope"></i> an_email666@qq.com</a>
                 <a href="https://space.bilibili.com/3493275306560179?spm_id_from=333.1007.0.0" target="_blank" rel="noopener" class="contact-pill"><i class="fab fa-bilibili"></i> Bilibili</a>
@@ -232,13 +208,21 @@
         </div>
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <p>&copy; 2026 Letutakoff. All rights reserved.</p>
         <p>贡献者：Letutakoff、Guashark</p>
     </footer>
 
     <script>
     (function() {
+        var bar = document.getElementById('scrollProgress');
+        if (bar) {
+            window.addEventListener('scroll', function() {
+                var st = window.pageYOffset || document.documentElement.scrollTop;
+                var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                bar.style.width = (st / h * 100) + '%';
+            });
+        }
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
@@ -246,11 +230,8 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.reveal').forEach(function(el) {
-            observer.observe(el);
-        });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
     })();
     </script>
 </body>
