@@ -13,7 +13,7 @@
             --page-accent-dark: #9b3ed6;
         }
 
-        ::selection { background: rgba(175, 82, 222, 0.15); }
+        ::selection { background: rgba(175, 82, 222, 0.18); }
 
         .scroll-progress {
             background: linear-gradient(90deg, #bf5af2, #af52de, #0071e3);
@@ -25,7 +25,9 @@
 
         .hero-avatar {
             background: linear-gradient(145deg, #bf5af2, #9b3ed6, #8830d0);
-            box-shadow: 0 4px 24px rgba(191, 90, 242, 0.2);
+            box-shadow: 0 8px 32px rgba(191, 90, 242, 0.24),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.35),
+                        inset 0 -2px 4px rgba(0, 0, 0, 0.08);
         }
 
         .hero h1.gradient-text {
@@ -48,31 +50,69 @@
 
         .contact-pill:hover i { color: var(--page-accent); }
 
-        /* ── Anime Card Grid ── */
+        /* ── Anime Card Grid — Liquid Glass ── */
         .anime-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
         .anime-card {
-            background: var(--card-bg);
-            backdrop-filter: saturate(180%) blur(28px);
-            -webkit-backdrop-filter: saturate(180%) blur(28px);
-            border: 1px solid var(--card-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%) brightness(1.06);
+            -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.06);
+            border: 1px solid var(--glass-border);
             border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: var(--shadow-card);
-            transition: transform 0.55s var(--spring),
-                        box-shadow 0.55s var(--ease-out);
+            box-shadow: var(--shadow-glass),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+            transition: transform 0.6s var(--ease-liquid),
+                        box-shadow 0.6s var(--ease-liquid),
+                        background 0.6s var(--ease-liquid);
             position: relative;
             transform-style: preserve-3d;
         }
-        .anime-card:hover {
-            transform: translateY(-6px) rotateX(2deg);
-            box-shadow: var(--shadow-card-hover), var(--shadow-glow-purple);
+
+        /* Specular highlight layer */
+        .anime-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.08) 25%, transparent 50%, transparent 75%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+            opacity: 0.7;
+            transition: opacity 0.6s var(--ease-liquid);
+            z-index: 2;
         }
+
+        /* Edge glow ring */
+        .anime-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.15) 30%, transparent 50%, rgba(255,255,255,0.15) 70%, rgba(255,255,255,0.5) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s var(--ease-liquid);
+            z-index: 3;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-8px) rotateX(2deg) scale(1.02);
+            background: var(--glass-bg-hover);
+            box-shadow: var(--shadow-glass-hover), var(--shadow-glow-purple),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
+        }
+        .anime-card:hover::before { opacity: 0.9; }
+        .anime-card:hover::after { opacity: 1; }
 
         .anime-card-img-wrap {
             position: relative;
@@ -85,21 +125,22 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.7s var(--ease-out);
+            transition: transform 0.8s var(--ease-liquid);
         }
         .anime-card:hover .anime-card-img {
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
 
         .anime-card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, transparent 25%, rgba(0, 0, 0, 0.6) 100%);
+            background: linear-gradient(180deg, transparent 25%, rgba(0, 0, 0, 0.55) 100%);
             opacity: 0;
-            transition: opacity 0.5s var(--ease-out);
+            transition: opacity 0.5s var(--ease-liquid);
             display: flex;
             align-items: flex-end;
             padding: 18px 16px 14px;
+            z-index: 1;
         }
         .anime-card:hover .anime-card-overlay { opacity: 1; }
         .anime-card-overlay span {
@@ -107,13 +148,16 @@
             font-size: 14px;
             font-weight: 700;
             letter-spacing: -0.01em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
         .anime-card-body {
             padding: 18px 20px 20px;
+            position: relative;
+            z-index: 1;
         }
         .anime-card-body h4 {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-family: var(--font-display);
             font-size: 17px;
             font-weight: 700;
             margin-bottom: 4px;

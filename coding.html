@@ -12,7 +12,7 @@
             --page-accent: #0a84ff;
         }
 
-        ::selection { background: rgba(0, 113, 227, 0.15); }
+        ::selection { background: rgba(0, 113, 227, 0.18); }
 
         .scroll-progress {
             background: linear-gradient(90deg, #0a84ff, #5e5ce6, #ff9500);
@@ -24,7 +24,9 @@
 
         .hero-avatar {
             background: linear-gradient(145deg, #0a84ff, #0071e3, #0060c0);
-            box-shadow: 0 4px 24px rgba(0, 113, 227, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 113, 227, 0.24),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.35),
+                        inset 0 -2px 4px rgba(0, 0, 0, 0.08);
         }
 
         .hero h1.gradient-text {
@@ -47,7 +49,7 @@
 
         .contact-pill:hover i { color: var(--accent); }
 
-        /* ── Project Cards ── */
+        /* ── Project Cards — Liquid Glass ── */
         .project-list {
             display: flex;
             flex-direction: column;
@@ -61,11 +63,12 @@
             align-items: flex-start;
         }
         .project-card:hover {
-            transform: translateY(-3px) scale(1.005);
-            box-shadow: var(--shadow-card-hover), var(--shadow-glow-blue);
+            transform: translateY(-4px) scale(1.008);
+            box-shadow: var(--shadow-glass-hover), var(--shadow-glow-blue),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.6);
         }
 
-        /* Left accent bar */
+        /* Left accent bar — liquid glow */
         .project-card::after {
             content: '';
             position: absolute;
@@ -74,12 +77,15 @@
             bottom: 20px;
             width: 3px;
             border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 12px currentColor;
         }
         .project-card[data-theme="maple"]::after {
             background: linear-gradient(180deg, #ff9500, #e55b00);
+            color: rgba(255, 149, 0, 0.4);
         }
         .project-card[data-theme="github"]::after {
             background: linear-gradient(180deg, #2d2d2f, #1d1d1f);
+            color: rgba(45, 45, 47, 0.3);
         }
 
         .proj-icon {
@@ -91,12 +97,24 @@
             justify-content: center;
             font-size: 26px;
             color: #fff;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15),
+                        inset 0 2px 3px rgba(255, 255, 255, 0.35),
+                        inset 0 -2px 3px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+        .proj-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+            pointer-events: none;
         }
         .icon-maple { background: linear-gradient(145deg, #ff9500, #e55b00); }
         .icon-gh    { background: linear-gradient(145deg, #2d2d2f, #1d1d1f); }
 
-        .proj-info { flex: 1; }
+        .proj-info { flex: 1; position: relative; z-index: 1; }
         .proj-header {
             display: flex;
             align-items: center;
@@ -104,7 +122,7 @@
             margin-bottom: 6px;
         }
         .proj-header h4 {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-family: var(--font-display);
             font-size: 21px;
             font-weight: 700;
             letter-spacing: -0.02em;
